@@ -52,13 +52,12 @@ Follow Step on this Link
 https://github.com/mendylivium/docker-ubuntu
 
 
-Clone this Repo.
-Run this Command
+Clone this repository. Run the following command:
 ```
 git clone https://github.com/mendylivium/mendyfi-hotspot.git
 ```
 
-Move to Directory
+Move to the project directory:
 ```
 cd mendyfi-hotspot
 ```
@@ -69,7 +68,7 @@ docker compose up -d
 ```
 
 
-Update Using Composer
+Update dependencies using Composer
 ```
 docker compose run --rm composer update
 ```
@@ -79,18 +78,20 @@ Run Migration
 docker compose run --rm artisan migrate:fresh --seed
 ```
 
-Then Login to the Mendyfi Webpage
+Then, log in to the Mendyfi webpage:
 
 Username: admin
 
 Password: admin@1234
 
-### **Goto Config and Copy the date to your Router/NAS**
+### **Go to the Config section and copy the data to your Router/NAS**
 
 ## Buy me a Coffee
 
-Donation is appreaciated.
+Donations are appreciated.
 
 Paypal: https://paypal.me/RommelMendiola
 
 GCash: 09553147435
+
+
