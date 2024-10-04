@@ -44,14 +44,6 @@
 ### - **Sales Report**
 ![Template](preview/sales.png)
 
-## Buy me a Coffee
-
-Donation is appreaciated.
-
-Paypal: https://paypal.me/RommelMendiola
-
-GCash: 09553147435
-
 ## **Instruction** ##
 
 First Install Docker.
@@ -94,3 +86,11 @@ Username: admin
 Password: admin@1234
 
 ### **Goto Config and Copy the date to your Router/NAS**
+
+## Buy me a Coffee
+
+Donation is appreaciated.
+
+Paypal: https://paypal.me/RommelMendiola
+
+GCash: 09553147435
