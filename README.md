@@ -61,16 +61,21 @@ https://github.com/mendylivium/docker-ubuntu
 
 
 Clone this Repo.
-
 Run this Command
 ```
-git clone https://github.com/mendylivium/mendyfi-hotspot
+git clone https://github.com/mendylivium/mendyfi-hotspot.git
 ```
 
 Move to Directory
 ```
 cd mendyfi-hotspot
 ```
+
+Run All Containers
+```
+docker compose up -d
+```
+
 
 Update Using Composer
 ```
