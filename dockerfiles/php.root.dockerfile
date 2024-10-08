@@ -16,6 +16,10 @@ RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 #  && apk add --no-cache --virtual .buildPacks autoconf g++ make \
 #  && apk add --no-cache icu-dev tidyhtml-dev \
 
+RUN apt-get update && apt-get install -y \
+    libmysqlclient-dev \
+    php-dev
+
 RUN docker-php-ext-install pdo pdo_mysql bcmath
 
 # RUN mkdir -p /usr/src/php/ext/bolt
