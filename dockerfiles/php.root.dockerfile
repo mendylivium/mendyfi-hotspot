@@ -11,10 +11,10 @@ RUN sed -i "s/group = www-data/group = root/g" /usr/local/etc/php-fpm.d/www.conf
 RUN echo "php_admin_flag[log_errors] = on" >> /usr/local/etc/php-fpm.d/www.conf
 
 
-# RUN set -x \
-#  && docker-php-source extract \
-#  && apk add --no-cache --virtual .buildPacks autoconf g++ make \
-#  && apk add --no-cache icu-dev tidyhtml-dev \
+RUN set -x \
+    && docker-php-source extract \
+    && apk add --no-cache --virtual .buildPacks autoconf g++ make \
+    && apk add --no-cache icu-dev tidyhtml-dev \
 
 RUN docker-php-ext-install pdo pdo_mysql bcmath
 
