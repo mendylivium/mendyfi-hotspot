@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Http;
 
 class Dashboard extends Component
 {
-    
+
     use WithPagination;
     use BasicHelper;
     protected $paginationTheme = 'bootstrap';
@@ -38,7 +38,7 @@ class Dashboard extends Component
         $yesterday = Carbon::yesterday()->format('Y-m-d');
         $currentWeekStart = Carbon::now()->startOfWeek()->format('Y-m-d');
         $currentWeekEnd = Carbon::now()->endOfWeek()->format('Y-m-d');
-        $currentMonth = Carbon::now()->month;        
+        $currentMonth = Carbon::now()->month;
 
         return SalesRecord::query()
         ->where('user_id',$this->user->id)

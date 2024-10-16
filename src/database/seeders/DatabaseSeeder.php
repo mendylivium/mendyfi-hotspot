@@ -47,5 +47,5 @@ class DatabaseSeeder extends Seeder
             ['name' =>  'RADIUS_INTERIM', 'value' => '1'],
         ]);
 
-    } 
+    }
 }

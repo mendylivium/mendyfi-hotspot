@@ -24,7 +24,7 @@ class Login extends Component
             'username' => 'required',
             'password' => 'required'
         ]);
-
+        $tenant = tenant();
         if(RateLimiter::tooManyAttempts('login:'.$this->username, 20)) {
             $seconds = RateLimiter::availableIn('login:'.$this->username);
             return $this->addError('username', 'You may try again in '.$seconds.' seconds.');
@@ -32,7 +32,7 @@ class Login extends Component
 
         if(auth()->attempt($credentials)) {
             request()->session()->regenerate();
-            return redirect()->route('client.dashboard');
+            return redirect()->route($tenant ? 'client.dashboard' : 'admin.dashboard');
         }
 
         RateLimiter::hit('login:'.$this->username, 30);

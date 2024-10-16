@@ -28,6 +28,8 @@ use App\Livewire\Client\Hotspot\Vouchers\Active;
 use App\Livewire\Client\Hotspot\Vouchers\Generate;
 use App\Livewire\Client\Hotspot\Vouchers\Generated;
 use App\Http\Controllers\Api\XenditDisburseController;
+use App\Livewire\Admin\AddDomain;
+use App\Livewire\AdminDashboard;
 use App\Livewire\Client\Hotspot\Template\EditTemplate;
 use App\Livewire\Client\Hotspot\Template\CreateTemplate;
 use App\Livewire\Client\Hotspot\Template\GeneratedTemplate;
@@ -43,6 +45,29 @@ use App\Livewire\Client\Hotspot\Template\GeneratedTemplate;
 |
 */
 
+Route::group(['middleware' => ['web', 'universal']], function () {
+    Route::get('/login', function () {
+        return redirect()->route('admin.auth.login');
+    });
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'auth', 'middleware' => 'guest'], function () {
+            Route::get('login', Login::class)->name('admin.auth.login');
+        });
+
+        Route::group(['middleware' => 'auth'],function(){
+            Route::get('dashboard', AdminDashboard::class)->name('admin.dashboard');
+
+            Route::get('logout',function(){
+                auth()->logout();
+                return redirect()->route('admin.auth.login');
+            })->name('admin.logout');
+        });
+        Route::group(['prefix' => 'domain'], function(){
+            Route::get('add',AddDomain::class)->name('admin.domain.add');
+        });
+    });
+});
+
 Route::get('/', function () {
     return redirect()->route('client.auth.login');
 });
@@ -56,7 +81,7 @@ Route::get('/lic', function(){
 });
 
 Route::get('/host', function(){
-   
+
     dd(Carbon::now()->subMonth()->month);
 });
 
@@ -68,7 +93,7 @@ Route::group(['prefix' => 'api'],function(){
         Route::match(['GET','POST'],'auth',[Authentication::class,'gateway']);
         Route::match(['GET','POST'],'accounting',[Accounting::class,'gateway']);
     });
-    
+
 
     Route::match(['GET','POST'],'vouchers',[VouchersInfo::class,'print'])->name('api.vouchers.print');
     Route::match(['GET','POST'],'sales',[SalesGraph::class,'index'])->name('api.sales');
@@ -85,14 +110,13 @@ Route::group([ 'prefix' => 'client'],function(){
     });
 
     Route::group(['middleware' => 'auth'],function(){
-        
+
         Route::get('logout',function(){
             auth()->logout();
             return redirect()->route('client.auth.login');
         })->name('logout');
 
         Route::get('dashboard',Dashboard::class)->name('client.dashboard');
-
         Route::group(['prefix' => 'hotspot'],function(){
             //Vouchers
             Route::group(['prefix' => 'vouchers'],function(){
@@ -106,21 +130,21 @@ Route::group([ 'prefix' => 'client'],function(){
                 Route::get('templates',GeneratedTemplate::class)->name('client.voucher.template');
                 Route::get('create-template',CreateTemplate::class)->name('client.voucher.template.create');
                 Route::get('edit-template-{id}',EditTemplate::class)->name('client.voucher.template.edit');
-                
+
                 Route::group(['prefix' => 'profile'],function(){
                     Route::get('list',Profile::class)->name('client.vouchers.profiles');
                     Route::get('create',CreateProfile::class)->name('client.vouchers.profile.create');
                     Route::get('edit-{id}',EditProfile::class)->name('client.vouchers.profile.edit');
                     Route::get('bind-policy-{id}',App\Livewire\Client\Profile\BindPolicy::class)->name('client.vouchers.profile.bind-policy');
-                });      
-            }); 
+                });
+            });
 
             Route::group(['prefix' => 'reseller'], function(){
                 Route::get('list',App\Livewire\Client\Reseller\ResellerList::class)->name('client.reseller.list');
                 Route::get('add',App\Livewire\Client\Reseller\AddReseller::class)->name('client.reseller.add');
                 Route::get('edit/{id}',App\Livewire\Client\Reseller\EditReseller::class)->name('client.reseller.edit');
             });
-            
+
             Route::get('config', Configuration::class)->name('client.config');
             Route::get('sales', Sales::class)->name('client.sales');
         });
@@ -132,5 +156,5 @@ Route::group([ 'prefix' => 'client'],function(){
         });
 
     });
-    
+
 });

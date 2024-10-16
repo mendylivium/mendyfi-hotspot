@@ -27,7 +27,10 @@
                     Balance
                 </a>
                 <div class="dropdown-divider"></div> --}}
-                <a class="dropdown-item" href="{{ route('logout') }}">
+                @php
+                    $tenant = tenant();
+                @endphp
+                <a class="dropdown-item" href="{{ route($tenant? 'logout' : 'admin.logout') }}">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
