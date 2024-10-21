@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        FilePreviewController::$middleware = ['web', 'universal', InitializeTenancyByDomain::class];
+        // FilePreviewController::$middleware = ['web', 'universal', InitializeTenancyByDomain::class];
 
     }
 }

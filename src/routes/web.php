@@ -55,7 +55,7 @@ Route::group(['middleware' => ['web', 'universal']], function () {
         });
 
         Route::group(['middleware' => 'auth'],function(){
-            Route::get('dashboard', AdminDashboard::class)->name('admin.dashboard');
+            Route::get('dashboard/{id?}', AdminDashboard::class)->name('admin.dashboard');
 
             Route::get('logout',function(){
                 auth()->logout();

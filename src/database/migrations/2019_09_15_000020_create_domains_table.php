@@ -21,6 +21,7 @@ class CreateDomainsTable extends Migration
             $table->string('tenant_id');
             $table->string('user_name')->nullable();
             $table->string('password')->nullable();
+            $table->boolean('successfully_created')->default(false);
             $table->timestamps();
             $table->foreign('tenant_id')->references('id')->on('tenants')->onUpdate('cascade')->onDelete('cascade');
         });

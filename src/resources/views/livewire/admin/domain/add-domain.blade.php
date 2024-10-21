@@ -3,6 +3,20 @@
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 text-primary">Add Domain</h6>
+
+                {{-- Display Error Alert if any error is returned --}}
+       {{-- Display the error message --}}
+       @if($errorMessage)
+       <div class="col-12 mb-2">
+           <div class="alert alert-danger">
+               {{ $errorMessage }}
+           </div>
+       </div>
+       @endif
+
+
+
+
             </div>
             <div class="card-body">
                 <form wire:submit.prevent="addDomain">

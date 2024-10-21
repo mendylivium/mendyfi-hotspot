@@ -169,6 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TenancyServiceProvider::class,
+        Orangehill\Iseed\IseedServiceProvider::class,
     ])->toArray(),
 
     /*

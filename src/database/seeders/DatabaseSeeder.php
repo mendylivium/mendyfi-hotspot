@@ -19,13 +19,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        Permission::create(['name' =>  'admin-function']);
+        // Permission::create(['name' =>  'admin-function']);
 
-        $adminUser = Role::create(['name' => 'admin']);
+        // $adminUser = Role::create(['name' => 'admin']);
 
-        $adminUser->givePermissionTo([
-            'admin-function',
-        ]);
+        // $adminUser->givePermissionTo([
+        //     'admin-function',
+        // ]);
 
         $admin = User::create([
             'name'          =>  'Administrator',
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             'mobile'        =>  '09123456789',
         ]);
 
-        $admin->assignRole('admin');
+        // $admin->assignRole('admin');
 
         DB::table('app_settings')->insert([
             ['name' =>  'APP_NAME',     'value' =>  'Mendyfi'],
