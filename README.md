@@ -79,7 +79,20 @@ Run Migration
 docker compose run --rm artisan migrate:fresh --seed
 ```
 
-Then, log in to the Mendyfi webpage:
+### - **CHANGE CENTAL DOMAIN**
+
+Edit .env and Change the "CENTRAL_DOMAINS"
+
+![Template](preview/central_domains.png)
+
+```
+...
+CENTRAL_DOMAINS=yourdomain, 127.0.0.1
+...
+```
+
+Go to your Central Domain or IP
+Then, log in to the Mendyfi WebPage:
 
 Username: admin
 
