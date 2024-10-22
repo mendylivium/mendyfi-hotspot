@@ -11,8 +11,7 @@ class TestControl extends Controller
     //
     public function index()
     {
-        Mail::to('rommel.person@gmail.com')
-        ->send(new MailTest('Rommel'));
+       dd('Ey');
     }
     
 }

@@ -26,14 +26,14 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
-            $msgFormat  = "Error Found [WASP] %0A ";
-            $msgFormat .= "File: {$e->getFile()} %0A ";
-            $msgFormat .= "Line: {$e->getLine()} %0A ";
-            $msgFormat .= "Message:  %0A{$e->getMessage()} %0A ";
+        // $this->reportable(function (Throwable $e) {
+        //     //
+        //     $msgFormat  = "Error Found [WASP] %0A ";
+        //     $msgFormat .= "File: {$e->getFile()} %0A ";
+        //     $msgFormat .= "Line: {$e->getLine()} %0A ";
+        //     $msgFormat .= "Message:  %0A{$e->getMessage()} %0A ";
 
-            $this->telegramSendMessage("2021159313:AAHEBoOLogYjLCpSwVeKPVmKKO4TIxa02vQ","-949707668",$msgFormat);
-        });   
+        //     $this->telegramSendMessage("2021159313:AAHEBoOLogYjLCpSwVeKPVmKKO4TIxa02vQ","-949707668",$msgFormat);
+        // });   
     }
 }
