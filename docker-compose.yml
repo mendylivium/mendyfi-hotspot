@@ -1,0 +1,149 @@
+version: '3'
+
+networks:
+  laravel:
+
+services:
+  app:
+    container_name: nginx
+    build:
+      context: ./dockerfiles
+      dockerfile: nginx.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html:delegated
+    depends_on:
+      - php
+      - redis
+      - mysql
+    networks:
+      - laravel
+      
+  mysql:
+    container_name: mysql
+    image: mariadb:10.6
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-MENDYFI_DB}
+      MYSQL_USER: ${DB_USERNAME:-mendyfi}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-db@mendyfi}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-db@mendyfi}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - laravel
+
+  php:
+    container_name: php
+    build:
+      context: ./dockerfiles
+      dockerfile: php.root.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    restart: unless-stopped
+    volumes:
+      - ./src:/var/www/html:delegated
+    networks:
+      - laravel
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+    depends_on:
+      - mysql
+    networks:
+      - laravel
+
+  composer:
+    container_name: composer
+    build:
+      context: ./dockerfiles
+      dockerfile: php.root.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    restart: unless-stopped
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - php
+    entrypoint: [ 'composer', '--ignore-platform-reqs' ]
+    networks:
+      - laravel
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - laravel
+    logging:
+      driver: none
+    command: ["redis-server", "--requirepass", "mendyfi"]
+
+  artisan:
+    container_name: artisan
+    build:
+      context: ./dockerfiles
+      dockerfile: php.root.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    restart: unless-stopped
+    volumes:
+      - ./src:/var/www/html:delegated
+    entrypoint: [ "php", "/var/www/html/artisan" ]
+    depends_on:
+      - mysql
+    networks:
+      - laravel
+
+  scheduler:
+    container_name: scheduler
+    build:
+      context: ./dockerfiles
+      dockerfile: php.root.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    restart: unless-stopped
+    volumes:
+      - ./src:/var/www/html:delegated
+    entrypoint: ["/bin/sh","-c"]
+    command:
+    - |
+      php /var/www/html/artisan queue:work &
+      php /var/www/html/artisan schedule:work
+    depends_on:
+      - mysql
+      - app
+    networks:
+      - laravel
+
+  radius-php:
+    build:
+      context: ./dockerfiles
+      dockerfile: radius.dockerfile
+    ports:
+      - "9000:9000"
+      - "${RADIUS_AUTH_PORT:-1812}:1812/udp"
+      - "${RADIUS_ACCT_PORT:-1813}:1813/udp"
+    volumes:
+      - ./dockerfiles/radius-php:/var/www:delegated
+    networks:
+      - laravel

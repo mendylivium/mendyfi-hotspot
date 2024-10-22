@@ -1,0 +1,7 @@
+@php
+    $title = 'Hotspot Profiles';
+    $links = ['Hotspot', 'Profiles'];
+@endphp
+<x-partials.wrapper :user=$user :title=$title :links=$links>
+   
+</x-partials.wrapper>
