@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-        if ($this->app->environment('production') && filter_var(request()->getHost(),FILTER_VALIDATE_IP)) {
+        if ($this->app->environment('production') && !filter_var(request()->getHost(),FILTER_VALIDATE_IP)) {
             URL::forceScheme('https');
         }
     }

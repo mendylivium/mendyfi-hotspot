@@ -47,9 +47,12 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 |
 */
 
+
 foreach (config('tenancy.central_domains') as $domain) {
 
     //if(request()->getPort() != 8090) break;
+
+    
 
     Route::domain($domain)->group(function () {
         // your actual routes

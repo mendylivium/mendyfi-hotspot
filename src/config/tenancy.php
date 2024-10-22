@@ -16,10 +16,12 @@ return [
      *
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
-    'central_domains' => array_merge([
+    'central_domains' => array_filter(array_merge([
         '127.0.0.1',
         (filter_var(request()->getHost(),FILTER_VALIDATE_IP) ? request()->getHost() : 'localhost'),
-    ],explode(",",env('CENTRAL_DOMAINS',"foo.localhost"))), 
+    ],explode(",",env('CENTRAL_DOMAINS',""))),function($value) {
+        return !empty($value);
+    }), 
  
     /**
      * Tenancy bootstrappers are executed when tenancy is initialized.
