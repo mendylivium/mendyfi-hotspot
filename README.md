@@ -5,6 +5,7 @@
     Facebook: @mendylivium
 
 ### **Features**
+- Multi User / Multi Tenancy
 - Sales Dashboard
 - Voucher Generation
 - Reseller Voucher
