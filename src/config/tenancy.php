@@ -18,7 +18,7 @@ return [
      */
     'central_domains' => array_filter(array_merge([
         '127.0.0.1',
-        (filter_var(request()->getHost(),FILTER_VALIDATE_IP) ? request()->getHost() : 'localhost'),
+        app()->runningInConsole() ? " " : (filter_var(request()->getHost(),FILTER_VALIDATE_IP) ? request()->getHost() : 'localhost'),
     ],explode(",",env('CENTRAL_DOMAINS',""))),function($value) {
         return !empty($value);
     }), 
