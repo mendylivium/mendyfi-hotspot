@@ -94,7 +94,7 @@ Route::group(['prefix' => 'api'], function(){
 Route::middleware([
     'web',
     InitializeTenancyByDomain::class,
-    PreventAccessFromCentralDomains::class,
+    app()->runningInConsole()? null : ((filter_var(request()->getHost(),FILTER_VALIDATE_IP)) ? 'web' : PreventAccessFromCentralDomains::class),
 ])->group(function () {
     
     Route::group(['prefix' => 'api'],function(){
