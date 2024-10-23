@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Throwable;
 use App\Traits\TelegramHelper;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Stancl\Tenancy\Exceptions\TenantCouldNotBeIdentifiedOnDomainException;
 
 class Handler extends ExceptionHandler
 {
@@ -35,5 +36,16 @@ class Handler extends ExceptionHandler
 
         //     $this->telegramSendMessage("2021159313:AAHEBoOLogYjLCpSwVeKPVmKKO4TIxa02vQ","-949707668",$msgFormat);
         // });   
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // Catch the TenantCouldNotBeIdentifiedOnDomainException
+        if ($exception instanceof TenantCouldNotBeIdentifiedOnDomainException) {
+            // Redirect or show a custom view
+            return view('unknown_domain');
+        }
+
+        return parent::render($request, $exception);
     }
 }
