@@ -5,7 +5,9 @@ namespace App\Exceptions;
 use Throwable;
 use App\Traits\TelegramHelper;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Stancl\Tenancy\Exceptions\TenantCouldNotBeIdentifiedByPathException;
 use Stancl\Tenancy\Exceptions\TenantCouldNotBeIdentifiedOnDomainException;
+use Stancl\Tenancy\Exceptions\TenantCouldNotBeIdentifiedByRequestDataException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,7 +45,13 @@ class Handler extends ExceptionHandler
         // Catch the TenantCouldNotBeIdentifiedOnDomainException
         if ($exception instanceof TenantCouldNotBeIdentifiedOnDomainException) {
             // Redirect or show a custom view
-            return view('unknown_domain');
+            return view('unknown_tenant',[
+                'type' => 'domain'
+            ]);
+        } elseif($exception instanceof TenantCouldNotBeIdentifiedByRequestDataException) {
+            return view('unknown_tenant',[
+                'type' => 'param'
+            ]);
         }
 
         return parent::render($request, $exception);

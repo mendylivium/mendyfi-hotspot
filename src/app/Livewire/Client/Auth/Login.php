@@ -18,7 +18,7 @@ class Login extends Component
     public $password;
     public $pageTitle = 'Test';
 
-    public function login()
+    public function login($tenantId)
     {
         $credentials = $this->validate([
             'username' => 'required',

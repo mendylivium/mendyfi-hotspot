@@ -30,9 +30,11 @@ use App\Livewire\Client\Hotspot\Vouchers\Generate;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\Client\Hotspot\Vouchers\Generated;
 use App\Livewire\Client\Hotspot\Template\EditTemplate;
+use Stancl\Tenancy\Middleware\InitializeTenancyByPath;
 use App\Livewire\Client\Hotspot\Template\CreateTemplate;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use App\Livewire\Client\Hotspot\Template\GeneratedTemplate;
+use Stancl\Tenancy\Middleware\InitializeTenancyByRequestData;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 
@@ -91,12 +93,13 @@ Route::group(['prefix' => 'api'], function(){
 });
 
 
-Route::middleware([
-    'web',
-    InitializeTenancyByDomain::class,
-    app()->runningInConsole()? null : ((filter_var(request()->getHost(),FILTER_VALIDATE_IP)) ? 'web' : PreventAccessFromCentralDomains::class),
-])->group(function () {
-    
+Route::group([
+    'middleware' => [
+        'web',
+        env('IDENTIFY_BY_PARAMATER', false) ? InitializeTenancyByRequestData::class : InitializeTenancyByDomain::class,
+        env('IDENTIFY_BY_PARAMATER', false) ? 'web' : (app()->runningInConsole()? null : ((filter_var(request()->getHost(),FILTER_VALIDATE_IP)) ? 'web' : PreventAccessFromCentralDomains::class)),
+    ]
+],function () {
     Route::group(['prefix' => 'api'],function(){
         
         Route::match(['GET','POST'],'vouchers',[VouchersInfo::class,'print'])->name('api.vouchers.print');
