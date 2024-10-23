@@ -126,7 +126,7 @@
                         </table>
                     </div>
                     <div class="d-flex justify-content-end mt-4">
-                        {{-- {{ $batches->links() }} --}}
+                        {{ $this->batches->links() }}
                     </div>
                 </div>
             </div>

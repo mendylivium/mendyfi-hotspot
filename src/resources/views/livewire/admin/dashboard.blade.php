@@ -82,7 +82,7 @@
 
                 </div>
                 <div class="d-flex justify-content-end mt-4">
-                    {{-- {{ $this->resellers->links() }} --}}
+                    {{ $this->myTenants->links() }}
                 </div>
             </div>
         </div>
