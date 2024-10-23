@@ -3,7 +3,7 @@
         <span class="text text-lg text-dark">UNREGISTERED DOMAIN</span>
         <br>
         <span class="text text-danger">
-            "{{ request()->getHost() }}""
+            "{{ request()->getHost() }}"
         </span>
         <br>
         <br>
