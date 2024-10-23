@@ -83,6 +83,8 @@ docker compose run --rm artisan migrate:fresh --seed
 
 Edit .env and Change the "CENTRAL_DOMAINS"
 
+This is optional you can Access Admin page using your IP Address
+
 ![Template](preview/central_domains.png)
 
 ```
