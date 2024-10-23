@@ -1,111 +1,208 @@
-<?php
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between py-3">
+                    <h6 class="m-0 text-primary">Generated Vouchers</h6>
+                    <div class="card-tools">
+                        <a class="btn btn-sm btn-primary" href="{{ route('client.voucher.generate') }}"><i
+                                class="fas fa-plus mr-1"></i>Generate</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table-bordered table-striped table-sm" id="dataTable" width="100%"
+                            cellspacing="0">
+                            <thead>
+                                <tr style="font-size:0.8rem;">
+                                    <th>Voucher Info</th>
+                                    <th>Credit</th>
+                                    <th>Generated</th>
+                                    <th>Price</th>
+									<th>Action</th>			   
 
-namespace App\Livewire\Client\Hotspot\Vouchers;
+                                </tr>
+                            </thead>
+                            <tbody class="text text-xs text-nowrap">
+                                @forelse ($this->vouchers as $voucher)
+                                    <tr>
+                                        <td>
+                                            <b>Code: </b> <span class="text text-info">{{ $voucher->code }}</span><br />
+                                            <b>Profile: </b> <span
+                                                class="text-primary">{{ $voucher->profile_name }}</span><br />
 
-use App\Models\User;
-use Livewire\Component;
-use App\Traits\BasicHelper;
-use App\Traits\RadiusHelper;
-use Livewire\WithPagination;
-use App\Models\HotspotVouchers;
-use App\Models\VoucherTemplate;
-use Livewire\Attributes\Computed;
-use Illuminate\Support\Facades\DB;
+                                        </td>
+                                        <td>
+                                            <b>Data: </b><span class="text-primary">
+                                                {{ $voucher->data_limit > 0 ? "{$this->convertBytes($voucher->data_limit)}" : 'Unlimited' }}</span><br />
+                                            <b>Time: </b><span class="text-primary">
+                                                {{ $voucher->uptime_limit > 0 ? "{$this->convertSeconds($voucher->uptime_limit)}" : 'Unlimited' }}</span><br />
+                                        </td>
+                                        <td>
+                                            {{ Illuminate\Support\Carbon::parse($voucher->generation_date)
+																		->setTimezone(env('APP_TIMEZONE'))
+                                                                        ->format('M d, Y h:i:s A') }}								  
+																									 
 
-class Generated extends Component
-{
-    use WithPagination;
-    use RadiusHelper;
-    use BasicHelper;
+                                        </td>
+                                        <td>
+                                            {{ number_format($voucher->price, 2) }}
+                                        </td>
+																				   
+																										 
+																	   
+																								
+																																																				   
+																										 
+																										 
+													  
 
-    protected $paginationTheme = 'bootstrap';
+												  
+											 
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4">NO VOUCHER AVAILABLE</td>
+                                    </tr>
+                                @endforelse
 
-    public function deleteBatch($batch)
-    {
-        HotspotVouchers::where([
-            'user_id'           =>  $this->user->id,
-            'batch_code'    =>  $batch
-        ])
-        ->delete();
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        {{ $this->vouchers->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        $this->showFLash([
-            'type'      =>  'danger',
-            'message'   =>  'Vouchers Deleted!'
-        ]);
-    }
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex justify-content-between py-3">
+                    <h6 class="m-0 text-primary">Vouchers by Batch</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table-bordered table-striped table-sm" id="dataTable" width="100%"
+                            cellspacing="0">
+                            <thead>
+                                <tr style="font-size:0.8rem;">
+                                    <th>Batch Code</th>
+                                    <th>Profile Name</th>
+                                    <th>Reseller</th>
+                                    <th>Generation Date</th>
+                                    <th>Price</th>
+                                    <th>Qty.</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text text-xs text-nowrap">
+                                @forelse ($this->batches as $batch)
+                                    <tr>
+                                        <td>
+                                            {{ $batch->batch_code }}
+                                        </td>
+                                        <td>
+                                            {{ $batch->name }}
+                                        </td>
+                                        <td>
+                                            {{ $batch->reseller_name ?? 'N/A' }}
+                                        </td>
+                                        <td>
+                                            {{ Illuminate\Support\Carbon::parse($batch->generation_date)->format('M d, Y h:i:s A') }}
+																	->setTimezone(env('APP_TIMEZONE'))
+                                                                    ->format('M d, Y h:i:s A') }}								  
+																								 
+                                        </td>
+                                        <td>
+                                            {{ number_format($batch->price, 2) }}
+                                        </td>
+                                        <td>
+                                            {{ $batch->count }}
+                                        </td>
+                                        <td style="min-width: 170px;width: 180px;">
+                                            <div class="btn-group">
+                                                <button class="btn btn-success btn-sm"
+                                                    x-on:click="showVoucherTemplate({{ $batch->batch_code }})">
+                                                    <li class="fas fa-print mr-1"></li>Print
+                                                </button>
+                                                <button class="btn btn-danger btn-sm"
+                                                    wire:confirm.prompt="Are you sure?\n\nType {{ substr($batch->batch_code, -5) }} to confirm|{{ substr($batch->batch_code, -5) }}"
+                                                    wire:click="deleteBatch({{ $batch->batch_code }})">
+                                                    <li class="fas fa-trash mr-1"></li>Delete
+                                                </button>
+                                            </div>
 
-    #[Computed()]
-    public function vouchers()
-    {
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6">NO VOUCHER BATCH AVAILABLE</td>
+                                    </tr>
+                                @endforelse
 
-        return HotspotVouchers::query()
-        ->leftJoin('hotspot_profiles','hotspot_profiles.id','hotspot_vouchers.hotspot_profile_id')
-        ->where([
-            'hotspot_profiles.user_id'      =>  $this->user->id,
-            'hotspot_vouchers.used_date'    =>  null,
-        ])
-        ->select(
-            'hotspot_vouchers.*',
-            'hotspot_profiles.name as profile_name',
-            'hotspot_profiles.price',
-            'hotspot_profiles.uptime_limit',
-            'hotspot_profiles.data_limit',
-            'hotspot_profiles.max_download',
-            'hotspot_profiles.max_upload',
-            'hotspot_profiles.validity'
-        )
-        ->orderBy('hotspot_vouchers.id','DESC')
-        ->paginate(10);
-    }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-end mt-4">
+                        {{ $this->batches->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    #[Computed()]
-    public function templates()
-    {
-        return VoucherTemplate::where([
-            'user_id' => $this->user->id
-        ])
-        ->get();
-    }
+    <div class="modal fade" id="print-voucher-form" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Print Vouchers</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-    #[Computed()]
-    public function batches()
-    {
-        return HotspotVouchers::query()
-        ->leftJoin('hotspot_profiles','hotspot_profiles.id','hotspot_vouchers.hotspot_profile_id')
-        ->leftJoin('resellers','resellers.id','hotspot_vouchers.reseller_id')
-        ->select(
-            'hotspot_vouchers.generation_date',
-            'hotspot_profiles.name',
-            'hotspot_profiles.price',
-            'hotspot_vouchers.batch_code',
-            'resellers.name as reseller_name',
-            DB::raw('count(*) as count')
-        )
-        ->where('hotspot_vouchers.batch_code','<>',null)
-        ->where('hotspot_vouchers.user_id', $this->user->id)
-        ->where('hotspot_vouchers.used_date',null)
-        ->groupBy(
-            'generation_date',
-            'name',
-            'price',
-            'batch_code',
-            'reseller_name'
-        )
-        ->paginate(10,['*'],'batch');
-    }
 
-    #[Computed()]
-    public function user()
-    {
-        return auth()->user();
-    }
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Voucher Template</label>
+                                <select id="print_template" class="form-control">
+                                    <option value="0">Default</option>
+                                    @foreach ($this->templates as $template)
+                                        <option value="{{ $template->id }}">{{ $template->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
-    public function render()
-    {
-        return view('livewire.client.hotspot.vouchers.generated')
-        ->layout('components.layouts.app',[
-            'pageName' => 'Generated',
-            'links' => ['Hotspot', 'Generated Voucher']
-        ]);
-    }
-}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="print-btn"
+                        onclick="printBatchNow()">Print</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@push('scripts-bottom')
+    <script>
+        let selectedBatch = null;
+
+        function showVoucherTemplate(batch) {
+            selectedBatch = batch;
+            $('#print-voucher-form').modal('show');
+        }
+
+        function printBatchNow() {
+            const voucherTemplate = $('#print_template').val();
+            window.open('print?batch=' + selectedBatch + '&template=' + voucherTemplate);
+        }
+    </script>
+@endpush
