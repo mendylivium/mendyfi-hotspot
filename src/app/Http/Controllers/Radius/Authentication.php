@@ -295,7 +295,7 @@ class Authentication extends Controller
         $responses = [];
 
         $responses['Port-Limit'] = 1;
-        $responses['Acct-Interim-Interval'] = $this->radiusInterim * 60;
+        $responses['Acct-Interim-Interval'] = $this->radiusInterim;
 
         //Data Limit
         if($this->hotspotCustomer->data_credit != null) {
