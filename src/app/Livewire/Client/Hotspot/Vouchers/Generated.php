@@ -34,6 +34,20 @@ class Generated extends Component
         ]);
     }
 
+    public function deleteVoucher($id)
+    {
+        HotspotVouchers::where([
+            'id'    =>  $id
+        ])
+        ->delete();
+
+        $this->showFlash([
+            'type'      =>  'danger',
+            'message'   =>  'Voucher has been Deleted!'
+        ]);
+
+    }
+
     #[Computed()]
     public function vouchers()
     {
