@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Livewire\Client\Hotspot\Vouchers;
-
 use App\Models\User;
 use Livewire\Component;
 use App\Traits\BasicHelper;
@@ -18,6 +16,12 @@ class Active extends Component
     use BasicHelper;
 
     protected $paginationTheme = 'bootstrap';
+    public $search = '';
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     #[Computed()]
     public function user()
@@ -34,6 +38,15 @@ class Active extends Component
             'hotspot_vouchers.connected' => true
         ])
         ->where('hotspot_vouchers.used_date','<>',null)
+        ->when($this->search, function($query) {
+            $query->where(function($query) {
+                $query->where('hotspot_vouchers.code', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.mac_address', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.ip_address', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.router_ip', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_profiles.name', 'like', '%' . $this->search . '%');
+            });
+        })
         ->select(
             'hotspot_vouchers.*',
             'hotspot_profiles.name as profile_name',
@@ -85,7 +98,6 @@ class Active extends Component
 
     public function render()
     {
-
         return view('livewire.client.hotspot.vouchers.active')
         ->layout('components.layouts.app',[
             'pageName' => 'Active Hotspot',

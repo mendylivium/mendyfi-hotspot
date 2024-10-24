@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Client\Hotspot\Vouchers;
 
 use App\Models\User;
@@ -17,7 +16,12 @@ class Used extends Component
     use RadiusHelper;
 
     protected $paginationTheme = 'bootstrap';
+    public $search = '';
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     #[Computed()]
     public function vouchers()
@@ -27,6 +31,15 @@ class Used extends Component
             'hotspot_vouchers.user_id' => $this->user->id
         ])
         ->where('hotspot_vouchers.used_date','<>',null)
+        ->when($this->search, function($query) {
+            $query->where(function($query) {
+                $query->where('hotspot_vouchers.code', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.batch_code', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_profiles.name', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.mac_address', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.ip_address', 'like', '%' . $this->search . '%');
+            });
+        })
         ->select(
             'hotspot_vouchers.*',
             'hotspot_profiles.name as profile_name',

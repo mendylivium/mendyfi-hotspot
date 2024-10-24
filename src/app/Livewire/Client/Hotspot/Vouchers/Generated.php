@@ -19,6 +19,12 @@ class Generated extends Component
     use BasicHelper;
 
     protected $paginationTheme = 'bootstrap';
+    public $search = '';
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function deleteBatch($batch)
     {
@@ -34,16 +40,35 @@ class Generated extends Component
         ]);
     }
 
+    public function deleteVoucher($id)
+    {
+        HotspotVouchers::where([
+            'id'    =>  $id
+        ])
+        ->delete();
+
+        $this->showFlash([
+            'type'      =>  'danger',
+            'message'   =>  'Voucher has been Deleted!'
+        ]);
+    }
+
     #[Computed()]
     public function vouchers()
     {
-
         return HotspotVouchers::query()
         ->leftJoin('hotspot_profiles','hotspot_profiles.id','hotspot_vouchers.hotspot_profile_id')
         ->where([
             'hotspot_profiles.user_id'      =>  $this->user->id,
             'hotspot_vouchers.used_date'    =>  null,
         ])
+        ->when($this->search, function($query) {
+            $query->where(function($query) {
+                $query->where('hotspot_vouchers.code', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_vouchers.batch_code', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_profiles.name', 'like', '%' . $this->search . '%');
+            });
+        })
         ->select(
             'hotspot_vouchers.*',
             'hotspot_profiles.name as profile_name',
@@ -84,6 +109,13 @@ class Generated extends Component
         ->where('hotspot_vouchers.batch_code','<>',null)
         ->where('hotspot_vouchers.user_id', $this->user->id)
         ->where('hotspot_vouchers.used_date',null)
+        ->when($this->search, function($query) {
+            $query->where(function($query) {
+                $query->where('hotspot_vouchers.batch_code', 'like', '%' . $this->search . '%')
+                      ->orWhere('hotspot_profiles.name', 'like', '%' . $this->search . '%')
+                      ->orWhere('resellers.name', 'like', '%' . $this->search . '%');
+            });
+        })
         ->groupBy(
             'generation_date',
             'name',

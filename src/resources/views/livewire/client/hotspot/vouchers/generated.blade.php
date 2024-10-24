@@ -4,9 +4,17 @@
             <div class="card shadow mb-4">
                 <div class="card-header d-flex justify-content-between py-3">
                     <h6 class="m-0 text-primary">Generated Vouchers</h6>
-                    <div class="card-tools">
-                        <a class="btn btn-sm btn-primary" href="{{ route('client.voucher.generate') }}"><i
-                                class="fas fa-plus mr-1"></i>Generate</a>
+                    <div class="card-tools d-flex gap-2">
+                        <input 
+                            wire:model.live="search"
+                            type="text"
+                            class="form-control form-control-sm"
+                            placeholder="Search vouchers..."
+                            style="width: 200px;"
+                        >
+                        <a class="btn btn-sm btn-primary" href="{{ route('client.voucher.generate') }}">
+                            <i class="fas fa-plus mr-1"></i>Generate
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -19,6 +27,7 @@
                                     <th>Credit</th>
                                     <th>Generated</th>
                                     <th>Price</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text text-xs text-nowrap">
@@ -28,7 +37,6 @@
                                             <b>Code: </b> <span class="text text-info">{{ $voucher->code }}</span><br />
                                             <b>Profile: </b> <span
                                                 class="text-primary">{{ $voucher->profile_name }}</span><br />
-
                                         </td>
                                         <td>
                                             <b>Data: </b><span class="text-primary">
@@ -37,11 +45,22 @@
                                                 {{ $voucher->uptime_limit > 0 ? "{$this->convertSeconds($voucher->uptime_limit)}" : 'Unlimited' }}</span><br />
                                         </td>
                                         <td>
-                                            {{ Illuminate\Support\Carbon::parse($voucher->generation_date)->format('M d, Y h:i:s A') }}
-
+                                            {{ Illuminate\Support\Carbon::parse($voucher->generation_date)
+                                                                        ->setTimezone(env('APP_TIMEZONE'))
+                                                                        ->format('M d, Y h:i:s A') }}
                                         </td>
                                         <td>
                                             {{ number_format($voucher->price, 2) }}
+                                        </td>
+                                        <td style="min-width: 170px;width: 180px;">
+                                            <div class="d-flex justify-content-center align-item-center">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-danger shadow"
+                                                        wire:confirm.prompt="Are you sure?\nThis will delete also all generated voucher with this profile\n\nType {{ $voucher->id }} to confirm|{{ $voucher->id }}"
+                                                        wire:click="deleteVoucher({{ $voucher->id }})"><i
+                                                            class="fas fa-trash mr-2"></i>Delete</button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
@@ -49,7 +68,6 @@
                                         <td colspan="4">NO VOUCHER AVAILABLE</td>
                                     </tr>
                                 @endforelse
-
                             </tbody>
                         </table>
                     </div>
@@ -93,7 +111,9 @@
                                             {{ $batch->reseller_name ?? 'N/A' }}
                                         </td>
                                         <td>
-                                            {{ Illuminate\Support\Carbon::parse($batch->generation_date)->format('M d, Y h:i:s A') }}
+                                            {{ Illuminate\Support\Carbon::parse($batch->generation_date)
+                                                                    ->setTimezone(env('APP_TIMEZONE'))
+                                                                    ->format('M d, Y h:i:s A') }}
                                         </td>
                                         <td>
                                             {{ number_format($batch->price, 2) }}
@@ -113,7 +133,6 @@
                                                     <li class="fas fa-trash mr-1"></li>Delete
                                                 </button>
                                             </div>
-
                                         </td>
                                     </tr>
                                 @empty
@@ -121,7 +140,6 @@
                                         <td colspan="6">NO VOUCHER BATCH AVAILABLE</td>
                                     </tr>
                                 @endforelse
-
                             </tbody>
                         </table>
                     </div>
@@ -142,8 +160,6 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
@@ -157,7 +173,6 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -165,10 +180,8 @@
                     <button type="button" class="btn btn-primary" id="print-btn"
                         onclick="printBatchNow()">Print</button>
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 
