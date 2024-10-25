@@ -4,8 +4,13 @@
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 text-primary">Hotspot Vouchers</h6>
                 <div class="card-tools">
-                    {{-- <a class="btn btn-sm btn-primary" href="{{ route('client.voucher.generate') }}"><i
-                                class="fas fa-plus mr-1"></i>Generate</a> --}}
+                    <input 
+                        wire:model.live="search"
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Search active vouchers..."
+                        style="width: 200px;"
+                    >
                 </div>
             </div>
             <div class="card-body">
@@ -70,7 +75,6 @@
                                     <td colspan="6">NO ACTIVE VOUCHERS/USER FOUND</td>
                                 </tr>
                             @endforelse
-
                         </tbody>
                     </table>
                 </div>
