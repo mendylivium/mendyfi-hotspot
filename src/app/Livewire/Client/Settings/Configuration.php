@@ -26,8 +26,63 @@ class Configuration extends Component
     public $password;
     public $password_confirmation;
 
+
+    public $currentPassword2;
+
     public $accountPassword;
 
+    public $userName = '';
+
+
+    public function changeUserName()
+    {
+        $this->validate([
+            'userName' => 'required|min:4|alpha_num',
+            'currentPassword2' => 'required'
+        ],[],[
+            'currentPassword2' => 'Password'
+        ]);
+
+        if($this->userName == $this->user->username) {
+            return $this->addError('userName','Same with Old!');
+        }
+
+        if(!Hash::check($this->currentPassword2, $this->user->password)) {
+            return $this->addError('currentPassword2','Wrong Password');
+        }
+
+        /**
+         * tenancy()->central() currently not works here use DB instead
+         */
+        $existInCentral = \DB::connection('mysql')
+        ->table('domains')
+        ->where([
+            'username' => $this->userName
+        ])
+        ->exists();
+
+        if($existInCentral) {
+            return $this->addError('userName','Already Taken!');
+        }
+
+        \DB::connection('mysql')
+        ->table('domains')
+        ->where([
+            'username' => $this->user->username
+        ])
+        ->update([
+            'username' => $this->userName
+        ]);
+
+        $this->user->username = $this->userName;
+        $this->user->save();
+
+        $this->showFlash([
+            'type'      =>  'success',
+            'message'   =>  'Username Changed!, Please make sure to update your Router / NAS Also.'
+        ]);
+    }
+    
 
     public function changePass()
     {
@@ -76,6 +131,7 @@ class Configuration extends Component
     public function mount()
     {
         $this->radiusIP = $this->getCurrentIp();
+        $this->userName = $this->user->username;
     }
 
     public function render()
