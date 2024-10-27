@@ -4,14 +4,9 @@
             <div class="card shadow mb-4">
                 <div class="card-header d-flex justify-content-between py-3">
                     <h6 class="m-0 text-primary">Generated Vouchers</h6>
-                    <div class="card-tools d-flex gap-2">
-                        <input 
-                            wire:model.live="search"
-                            type="text"
-                            class="form-control form-control-sm"
-                            placeholder="Search vouchers..."
-                            style="width: 200px;"
-                        >
+                    <div class="card-tools d-flex">
+                        <input wire:model.live="searchVC" type="text" class="form-control form-control-sm mr-2"
+                            placeholder="Search vouchers..." style="width: 200px;">
                         <a class="btn btn-sm btn-primary" href="{{ route('client.voucher.generate') }}">
                             <i class="fas fa-plus mr-1"></i>Generate
                         </a>
@@ -45,9 +40,7 @@
                                                 {{ $voucher->uptime_limit > 0 ? "{$this->convertSeconds($voucher->uptime_limit)}" : 'Unlimited' }}</span><br />
                                         </td>
                                         <td>
-                                            {{ Illuminate\Support\Carbon::parse($voucher->generation_date)
-                                                                        ->setTimezone(env('APP_TIMEZONE'))
-                                                                        ->format('M d, Y h:i:s A') }}
+                                            {{ Illuminate\Support\Carbon::parse($voucher->generation_date)->setTimezone(env('APP_TIMEZONE'))->format('M d, Y h:i:s A') }}
                                         </td>
                                         <td>
                                             {{ number_format($voucher->price, 2) }}
@@ -65,7 +58,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4">NO VOUCHER AVAILABLE</td>
+                                        <td colspan="5">NO VOUCHER AVAILABLE</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -82,6 +75,10 @@
             <div class="card shadow mb-4">
                 <div class="card-header d-flex justify-content-between py-3">
                     <h6 class="m-0 text-primary">Vouchers by Batch</h6>
+                    <div class="card-tools d-flex">
+                        <input wire:model.live="searchBATCH" type="text" class="form-control form-control-sm mr-2"
+                            placeholder="Search Batch..." style="width: 200px;">
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -111,9 +108,7 @@
                                             {{ $batch->reseller_name ?? 'N/A' }}
                                         </td>
                                         <td>
-                                            {{ Illuminate\Support\Carbon::parse($batch->generation_date)
-                                                                    ->setTimezone(env('APP_TIMEZONE'))
-                                                                    ->format('M d, Y h:i:s A') }}
+                                            {{ Illuminate\Support\Carbon::parse($batch->generation_date)->setTimezone(env('APP_TIMEZONE'))->format('M d, Y h:i:s A') }}
                                         </td>
                                         <td>
                                             {{ number_format($batch->price, 2) }}
@@ -137,7 +132,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6">NO VOUCHER BATCH AVAILABLE</td>
+                                        <td colspan="7">NO VOUCHER BATCH AVAILABLE</td>
                                     </tr>
                                 @endforelse
                             </tbody>

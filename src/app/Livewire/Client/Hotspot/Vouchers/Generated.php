@@ -19,7 +19,8 @@ class Generated extends Component
     use BasicHelper;
 
     protected $paginationTheme = 'bootstrap';
-    public $search = '';
+    public $searchVC = '',
+    $searchBATCH = '';
 
     public function updatedSearch()
     {
@@ -62,11 +63,11 @@ class Generated extends Component
             'hotspot_profiles.user_id'      =>  $this->user->id,
             'hotspot_vouchers.used_date'    =>  null,
         ])
-        ->when($this->search, function($query) {
+        ->when($this->searchVC, function($query) {
             $query->where(function($query) {
-                $query->where('hotspot_vouchers.code', 'like', '%' . $this->search . '%')
-                      ->orWhere('hotspot_vouchers.batch_code', 'like', '%' . $this->search . '%')
-                      ->orWhere('hotspot_profiles.name', 'like', '%' . $this->search . '%');
+            $query->where('hotspot_vouchers.code', 'like', '%' . $this->searchVC . '%')
+                    ->orWhere('hotspot_vouchers.batch_code', 'like', '%' . $this->searchVC . '%')
+                    ->orWhere('hotspot_profiles.name', 'like', '%' . $this->searchVC . '%');
             });
         })
         ->select(
@@ -109,11 +110,11 @@ class Generated extends Component
         ->where('hotspot_vouchers.batch_code','<>',null)
         ->where('hotspot_vouchers.user_id', $this->user->id)
         ->where('hotspot_vouchers.used_date',null)
-        ->when($this->search, function($query) {
+        ->when($this->searchBATCH, function($query) {
             $query->where(function($query) {
-                $query->where('hotspot_vouchers.batch_code', 'like', '%' . $this->search . '%')
-                      ->orWhere('hotspot_profiles.name', 'like', '%' . $this->search . '%')
-                      ->orWhere('resellers.name', 'like', '%' . $this->search . '%');
+            $query->where('hotspot_vouchers.batch_code', 'like', '%' . $this->searchBATCH . '%')
+                    ->orWhere('hotspot_profiles.name', 'like', '%' . $this->searchBATCH . '%')
+                    ->orWhere('resellers.name', 'like', '%' . $this->searchBATCH . '%');
             });
         })
         ->groupBy(
