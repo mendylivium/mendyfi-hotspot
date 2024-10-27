@@ -1,5 +1,8 @@
 <div class="row">
     <div class="col-12">
+        <x-partials.flash />
+    </div>
+    <div class="col-12">
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">
                 <h6 class="m-0 text-primary">Resellers</h6>

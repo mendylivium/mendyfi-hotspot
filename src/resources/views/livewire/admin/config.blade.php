@@ -1,6 +1,7 @@
 <div class="row">
-
-
+    <div class="col-12">
+        <x-partials.flash />
+    </div>
     <div class="col-lg-6">
         <form wire:submit.prevent="editSettings">
             <div class="card shadow mb-4">

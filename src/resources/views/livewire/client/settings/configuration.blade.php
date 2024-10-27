@@ -1,7 +1,7 @@
 <div class="row">
-
-
-
+    <div class="col-12">
+        <x-partials.flash />
+    </div>
     <div class="col-lg-6">
         <div class="card shadow mb-4">
             <div class="card-header d-flex justify-content-between py-3">

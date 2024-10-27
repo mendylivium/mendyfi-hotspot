@@ -1,5 +1,8 @@
 <div class="row">
     <div class="col-12">
+        <x-partials.flash />
+    </div>
+    <div class="col-12">
         <div class="row">
             <div class="col-xl-3 col-md-6 mb-2">
                 <div class="card border-info shadow">
@@ -76,6 +79,9 @@
                                     </td>
                                 </tr>
                             @empty
+                                <tr>
+                                    <td colspan="5">NO USER FOUND</td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>

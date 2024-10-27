@@ -53,7 +53,7 @@ class Config extends Component
 
         return $this->showFlash([
             'type' => 'success',
-            'message' => 'settings updated'
+            'message' => 'Settings updated'
         ]);
     }
 

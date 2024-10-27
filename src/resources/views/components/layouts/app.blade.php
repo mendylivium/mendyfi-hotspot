@@ -39,7 +39,8 @@
                             / {{ strtoupper($link) }}
                         @endforeach
                     </h6>
-                    <div class="row">
+                    {{-- NOT WORKING IN THIS VERSION OF LARAVEL / MAKE OTHER COMPONENT --}}
+                    {{-- <div class="row">
                         <div class="col-12">
                             @if (session('type') && session('message'))
                                 <div class="alert alert-{{ session('type') }}">
@@ -47,7 +48,7 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
+                    </div> --}}
                     {{ $slot }}
                 </div>
                 <!-- /.container-fluid -->

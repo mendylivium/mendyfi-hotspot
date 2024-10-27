@@ -23,7 +23,7 @@ class Dashboard extends Component
 
         $this->showFlash([
             'type' => 'warning',
-            'message' => 'Tenant Deleted!'
+            'message' => 'User Deleted!'
         ]);
     }
 
@@ -39,11 +39,9 @@ class Dashboard extends Component
         return Tenant::query()
         ->leftJoin('domains','tenants.id','domains.tenant_id')
         ->select('tenants.*', 'domains.domain', 'domains.username', 'domains.status')
-        ->where(function($query){
-            if(!empty($this->searchStr)) {
-                $query->orWhere('domains.username','like',"%{$this->searchStr}%");
-                $query->orWhere('domains.domain','like',"%{$this->searchStr}%");
-            }
+        ->when($this->searchStr,function($query){
+            $query->orWhere('domains.username','like',"%{$this->searchStr}%");
+            $query->orWhere('domains.domain','like',"%{$this->searchStr}%");
         })
         ->paginate(10);
     }
