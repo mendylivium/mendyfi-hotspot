@@ -222,4 +222,9 @@ trait BasicHelper
         
         return $ip->output();
     }
+
+    function getPublicIp() {
+        $response = file_get_contents("http://ipinfo.io/ip");
+        return trim($response);
+    }
 }

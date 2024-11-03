@@ -5,8 +5,9 @@ use App\Livewire\Admin\AddUser;
 use App\Livewire\Admin\EditUser;
 use App\Livewire\Client\Auth\Login;
 use App\Livewire\Client\Sales\Sales;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestControl;
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\SalesGraph;
 use App\Livewire\Client\Profile\Profile;
 use App\Http\Controllers\Api\VouchersInfo;
@@ -62,6 +63,8 @@ foreach (config('tenancy.central_domains') as $domain) {
             Route::get('login', AdminLogin::class)->name('admin.auth.login');
         });
         
+
+        Route::get('test',[TestControl::class, 'index']);
             
         Route::group([
             'middleware' => ['web']], function(){

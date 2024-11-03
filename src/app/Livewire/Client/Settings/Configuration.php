@@ -19,7 +19,7 @@ class Configuration extends Component
     public $otherRealm;
     public $apiPublic;
     public $apiSecret;
-    public $radiusIP;
+    public $radiusIP, $radiusPublicIP;
     public $radiusSecret;
     
     public $currentPassword;
@@ -131,6 +131,7 @@ class Configuration extends Component
     public function mount()
     {
         $this->radiusIP = $this->getCurrentIp();
+        $this->radiusPublicIP = $this->getPublicIp();
         $this->userName = $this->user->username;
     }
 

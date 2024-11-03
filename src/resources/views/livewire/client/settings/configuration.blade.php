@@ -11,8 +11,15 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label class="text text-xs mb-0">RADIUS IP:</label>
+                            <label class="text text-xs mb-0">RADIUS IP [LOCAL / LAN]:</label>
                             <input type="text" wire:model="radiusIP" class="form-control" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="text text-xs mb-0">RADIUS IP [PUBLIC / WAN]:</label>
+                            <input type="text" wire:model="radiusPublicIP" class="form-control" readonly>
                         </div>
                     </div>
 
