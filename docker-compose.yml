@@ -51,6 +51,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/var/www/html:delegated
+      - ./backups:/var/www/html/storage/app/backups:delegated
     networks:
       - laravel
 
@@ -107,6 +108,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./src:/var/www/html:delegated
+      - ./backups:/var/www/html/storage/app/backups:delegated
     entrypoint: [ "php", "/var/www/html/artisan" ]
     depends_on:
       - mysql

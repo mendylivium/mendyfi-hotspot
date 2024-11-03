@@ -11,6 +11,7 @@
 - Reseller Voucher
 - Customizable Voucher
 - Fair Use Policy   
+- Auto Database Backup (Manual Import)
 
 #### **Compatible with any NAS/Router that Support Radius (WISPR)**
 
@@ -110,6 +111,20 @@ Add User / Domain
 
 ![Template](preview/admin_add_domain.png)
 
+
+## - **RESTORE DATABASE**
+
+Currently, you can manually restore the database using the console. I’m working on integrating it into the webpage.
+
+```
+docker compose run --rm artisan app:import-backup <YYYY-MM-DD>
+```
+Replace < YYYY-MM-DD > with the date you want to restore. e.g 2024-05-05
+
+Modify the .env file to extend the number of days you want to keep backups.
+```
+DB_BACKUP_INTERVAL=7 #in Days
+```
 
 ## Buy me a Coffee
 

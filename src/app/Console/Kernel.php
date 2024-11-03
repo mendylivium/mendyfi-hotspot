@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('app:fup-resetter')->everyMinute();
+        $schedule->command('app:daily-backup')->daily();
     }
 
     /**

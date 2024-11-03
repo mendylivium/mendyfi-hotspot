@@ -3,6 +3,8 @@ src/node_modules
 src/composer.lock
 src/package-lock.json
 mysql/
+backups/*.sql
+backups/tenants/*.sql
 docker-data
 src/app/Http/Controllers/Test/*
 *.sql

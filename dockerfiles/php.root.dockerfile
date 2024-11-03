@@ -20,6 +20,9 @@ RUN mkdir -p /usr/src/php/ext/redis \
 
 RUN apk add --no-cache freeradius-utils
 
+# Add mariadb-client for mysqldump
+RUN apk add --no-cache mariadb-client
+
 RUN apk add icu-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl
