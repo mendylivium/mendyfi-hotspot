@@ -45,7 +45,7 @@ class DailyBackup extends Command
 
     protected function backupCentralDatabase()
     {
-        $centralDatabaseName = config('tenancy.database.central_connection');
+        $centralDatabaseName = env('DB_DATABASE');
 
         $time = now()->format("Y-m-d");
 
@@ -54,7 +54,7 @@ class DailyBackup extends Command
         $dbUsername = env('DB_USERNAME');
         $dbHost = env('DB_HOST');
 
-        $command = "mysqldump -h $dbHost -u $dbUsername -p'$dbPassword' $centralDatabaseName > /var/www/html/storage/app/backups/central/{$file}";
+        $command = "mysqldump -h $dbHost -u $dbUsername -p'$dbPassword' $centralDatabaseName  > /var/www/html/storage/app/backups/central/{$file}";
         exec($command);
 
         $this->cleanupOldCentralBackups();
@@ -76,7 +76,7 @@ class DailyBackup extends Command
         $dbUsername = env('DB_USERNAME');
         $dbHost = env('DB_HOST');
 
-        $command = "mysqldump -h $dbHost -u $dbUsername -p'$dbPassword' $databaseName > /var/www/html/storage/app/backups/tenants/{$file}";
+        $command = "mysqldump -h $dbHost -u$dbUsername -p'$dbPassword' $databaseName > /var/www/html/storage/app/backups/tenants/{$file}";
         exec($command);
 
         $this->cleanupOldTenantBackups();
