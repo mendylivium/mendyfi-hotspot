@@ -137,6 +137,24 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li>
+                        <span class="text text-info">"voucher.reseller_name"</span>
+                        <ul>
+                            <li class="text-xs">
+                                Name of the Reseller of this Voucher
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <span class="text text-info">"voucher.reseller_id"</span>
+                        <ul>
+                            <li class="text-xs">
+                                ID of the Reseller of this Voucher
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
             </div>

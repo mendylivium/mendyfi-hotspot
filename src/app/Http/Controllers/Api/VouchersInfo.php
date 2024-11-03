@@ -23,7 +23,9 @@ class VouchersInfo extends Controller
         $batchCode  =   request()->get('batch');
         $vouhcerId  =   request()->get('id');
 
-        $vouchers = HotspotVouchers::leftJoin('hotspot_profiles','hotspot_profiles.id','hotspot_vouchers.hotspot_profile_id')
+        $vouchers = HotspotVouchers::query()
+        ->leftJoin('hotspot_profiles','hotspot_profiles.id','hotspot_vouchers.hotspot_profile_id')
+        ->leftJoin('resellers','resellers.id','hotspot_vouchers.reseller_id')
         ->select(
             '*',
             'hotspot_vouchers.id as prof_id',
@@ -34,7 +36,9 @@ class VouchersInfo extends Controller
             'hotspot_profiles.data_limit as prof_data_limit',
             'hotspot_profiles.max_download as prof_max_download',
             'hotspot_profiles.max_upload as prof_max_upload',
-            'hotspot_profiles.validity as prof_validity'
+            'hotspot_profiles.validity as prof_validity',
+            'resellers.name as reseller_name',
+            'resellers.id as reseller_id',
         )
         ->where('hotspot_vouchers.used_date',null);
 
@@ -51,6 +55,8 @@ class VouchersInfo extends Controller
         foreach($vouchers as $voucher) {
             $result[] = [
                 'id'                    =>  $voucher->prof_id,
+                'reseller_name'         =>  $voucher->reseller_name,
+                'reseller_id'           =>  $voucher->reseller_id,
                 'code'                  =>  $voucher->code,
                 'password'              =>  $voucher->password,
                 'description'           =>  $voucher->prof_desc,
