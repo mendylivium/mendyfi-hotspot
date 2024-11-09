@@ -99,6 +99,9 @@ HTML;
                             <td>
                                 <table style="width:100%;">
                                     <tr>
+                                        <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=75x75&data=' + voucher.code" />
+                                    </tr>
+                                    <tr>
                                         <td>VOUCHER CODE</td>
                                     </tr>
                                     <tr style="color: black; font-size: 14px;">

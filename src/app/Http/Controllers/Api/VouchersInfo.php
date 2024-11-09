@@ -176,7 +176,9 @@ class VouchersInfo extends Controller
                                         <td>
                                             <table style="width:100%;">
                                                 <!-- Username = Password    -->
-
+                                                <tr>
+                                                <img :src="'https://api.qrserver.com/v1/create-qr-code/?size=75x75&data=' + voucher.code" />
+                                                </tr>
                                                 <tr>
                                                     <td>VOUCHER CODE</td>
                                                 </tr>
