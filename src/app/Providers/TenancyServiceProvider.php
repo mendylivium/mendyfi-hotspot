@@ -106,7 +106,20 @@ class TenancyServiceProvider extends ServiceProvider
 
         $this->makeTenancyMiddlewareHighestPriority();
 
-        if(!in_array(request()->getHost(), config('tenancy.central_domains'))) {
+        //Check if Accessed via IP
+        if(filter_var(request()->getHost(),FILTER_VALIDATE_IP)) {
+
+            //Check if not on Port 8090
+            if(request()->getPort() != 8090) {
+                Livewire::setUpdateRoute(function ($handle) {
+                    return Route::post('/livewire/update', $handle)
+                        ->middleware(
+                            'web',
+                            InitializeTenancyByDomain::class, // or whatever tenancy middleware you use
+                        );
+                });
+            }
+        } elseif(!in_array(request()->getHost(), config('tenancy.central_domains'))) {
             Livewire::setUpdateRoute(function ($handle) {
                 return Route::post('/livewire/update', $handle)
                     ->middleware(

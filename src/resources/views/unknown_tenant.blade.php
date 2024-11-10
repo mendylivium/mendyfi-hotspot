@@ -1,7 +1,7 @@
 <x-layouts.guest>
     @if ($type == 'domain')
         <div class="text-center p-2">
-            <span class="text text-lg text-dark">UNREGISTERED DOMAIN</span>
+            <span class="text text-lg text-dark">UNREGISTERED</span>
             <br>
             <span class="text text-danger">
                 "{{ request()->getHost() }}"

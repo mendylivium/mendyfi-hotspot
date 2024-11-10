@@ -84,18 +84,22 @@ docker compose run --rm artisan migrate:fresh --seed
 
 Edit .env and Change the "CENTRAL_DOMAINS"
 
-This is optional you can Access Admin page using your IP Address
+This is optional you can Access Admin Page on the Domain Provided
 
 ![Template](preview/central_domains.png)
 
 ```
 ...
-CENTRAL_DOMAINS=yourdomain, 127.0.0.1
+CENTRAL_DOMAINS=yourdomain
 ...
 ```
 
 ### - **LOGIN TO ADMIN PAGE**
-Goto http://< you ip or domain >/auth/login
+If provide domain in "CENTRAL_DOMAINS"
+Goto http://< your domain >/auth/login
+
+If dont,
+Goto http://< your ip>:8090/auth/login
 
 ![Template](preview/admin_login.png)
 
