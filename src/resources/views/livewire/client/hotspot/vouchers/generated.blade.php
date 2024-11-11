@@ -33,6 +33,9 @@
                                     <tr>
                                         <td>
                                             <b>Code: </b> <span class="text text-info">{{ $voucher->code }}</span><br />
+                                            @if(!empty($voucher->password))
+                                            <b>Password: </b> <span class="text text-info">{{ $voucher->password }}</span><br />
+                                            @endif
                                             <b>Profile: </b> <span
                                                 class="text-primary">{{ $voucher->profile_name }}</span><br />
                                         </td>

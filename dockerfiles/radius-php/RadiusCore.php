@@ -566,7 +566,7 @@ class RadiusCore
             case 1:
                 if (is_callable($this->requestAccess)) {
                     $this->log("Access-Request Recieved");
-                    [$accessResponse , $radiusResponse, &$dynamicSecret] = call_user_func($this->requestAccess, $clientAttributes);                    
+                    [$accessResponse , $radiusResponse, &$dynamicSecret] = call_user_func($this->requestAccess, $clientAttributes, $radiusData['authenticator']);                    
                 } else {
                     $this->log("access-request is not defined");
                 }

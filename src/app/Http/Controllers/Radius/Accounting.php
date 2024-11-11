@@ -93,11 +93,15 @@ class Accounting extends Controller
             ],401);
         }
 
-        $this->publicApiToken = $this->getPublicToken($this->nasRealm) ?? $this->getPublicToken($this->nasIdentifier);
+        $this->publicApiToken = $this->getPublicToken($this->nasRealm);
+
+        if(!$this->publicApiToken[1]) {
+            $this->publicApiToken = $this->getPublicToken($this->nasIdentifier);
+        }
 
         if(!$this->publicApiToken[1]) {
             return response()->json([
-                'Reply-Message' => "Public Token not found"
+                'Reply-Message' => "Public Token not found " . $this->publicApiToken[0]
             ],401);
         }
 

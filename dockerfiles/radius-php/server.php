@@ -21,20 +21,21 @@ $accountingCodes = [
     201 => 5
 ];
 
-$radius->on("access-request", function($attributes) {
+$radius->on("access-request", function($attributes, $authenticator) {
 
     $secret = null;
 
-    global $accessCodes;
-
-    
+    global $accessCodes, $radius;
 
     $result = httpRequest('POST','http://app/api/radius/auth', $attributes);
-
-    // foreach($result['response'] as $key => $val) {
-    //     echo "{$key}: {$val} \r\n";
-    // }
-
+    if($radius->radiusSecret != $result['response']['Mendyfi-Secret'] ) {
+        $radius->radiusSecret = $result['response']['Mendyfi-Secret'];
+        $attributes['User-Password'] = $radius->decodePap($attributes['User-Password-Raw'], $authenticator, $radius->radiusSecret);
+        $result = httpRequest('POST','http://app/api/radius/auth', $attributes);
+    } 
+    foreach($result['response'] as $key => $val) {
+        echo "{$key}: {$val} \r\n";
+    }
     return [$accessCodes[$result['code']],$result['response'], $result['response']['Mendyfi-Secret'] ?? null];
 });
 
