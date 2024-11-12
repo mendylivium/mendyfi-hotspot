@@ -138,7 +138,7 @@ Check this Sample Config for your Guide: [Click Here](preview/tp-link.pdf)
 
 ## - **MIKROTIK CONFIG**
 
-Check this Sample Config for your Guide: [Click Here](preview/tp-link.pdf)
+Check this Sample Config for your Guide: [Click Here](preview/mikrotik.pdf)
 
 For Configuring Mikrotik to Use RADIUS: [Click Here](https://youtu.be/rgbyYfFOg6o?t=374)
 
