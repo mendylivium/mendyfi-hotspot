@@ -145,8 +145,8 @@ class Configuration extends Component
 
         return view('livewire.client.settings.configuration')
         ->layout('components.layouts.app',[
-            'pageName' => 'Voucher Template',
-            'links' => ['Hotspot', 'Voucher', 'Template']
+            'pageName' => 'Settings',
+            'links' => ['Settings']
         ]);
     }
 }

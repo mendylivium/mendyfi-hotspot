@@ -2,11 +2,12 @@
 
 use App\Livewire\Admin\Config;
 use App\Livewire\Admin\AddUser;
+use App\Livewire\Portal\Tplink;
 use App\Livewire\Admin\EditUser;
 use App\Livewire\Client\Auth\Login;
 use App\Livewire\Client\Sales\Sales;
-use App\Http\Controllers\TestControl;
 
+use App\Http\Controllers\TestControl;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\SalesGraph;
 use App\Livewire\Client\Profile\Profile;
@@ -94,6 +95,8 @@ Route::group(['prefix' => 'api'], function(){
         Route::match(['GET','POST'],'accounting',[Accounting::class,'gateway']);
     });
 });
+
+Route::get('/tplink-{tenant_id}',Tplink::class);
 
 
 Route::group([
