@@ -136,6 +136,12 @@ You dont need a Controller for This Setup, Just a TP-LINK EAP AP and a Server th
 
 Check this Sample Config for your Guide: [Click Here](preview/tp-link.pdf)
 
+## - **MIKROTIK CONFIG**
+
+Check this Sample Config for your Guide: [Click Here](preview/tp-link.pdf)
+
+For Configuring Mikrotik to Use RADIUS: [Click Here](https://youtu.be/rgbyYfFOg6o?t=374)
+
 ## Buy me a Coffee
 
 Donations are appreciated.
