@@ -9,12 +9,6 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label class="text text-xs mb-0">RADIUS IP [LOCAL / LAN]:</label>
-                            <input type="text" wire:model="radiusIP" class="form-control" readonly>
-                        </div>
-                    </div>
 
                     <div class="col-6">
                         <div class="form-group">
@@ -45,8 +39,8 @@
 
                 </div>
                 <span>
-                    <b>Note:</b> If you are running this system inside Docker, the RADIUS IP here may differ from the
-                    actual IP of the host device. Please check the IP on the router or the host instead.
+                    <b>Note:</b>If you are behind CGNAT, the IP {{ $radiusPublicIP }} may not work. You can use the
+                    local IP of this system instead..
                 </span>
             </div>
             <div class="card-footer">
@@ -60,6 +54,20 @@
                     </li>
                     Recreate
                 </button>
+            </div>
+        </div>
+        <div class="card shadow mb-4">
+            <div class="card-header d-flex justify-content-between py-3">
+                <h6 class="m-0 text-primary">External Portal</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <label class="text text-xs mb-0">TPLINK-EAP Stand Alone:</label>
+                        <input type="text" class="form-control"
+                            value="http://{{ $radiusPublicIP }}:8090/tplink-{{ $this->user->username }}" readonly>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
