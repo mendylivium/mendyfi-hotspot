@@ -130,6 +130,12 @@ Modify the .env file to extend the number of days you want to keep backups.
 DB_BACKUP_INTERVAL=7 #in Days
 ```
 
+## - **TP-LINK EAP STANDALONE CONFIG**
+
+You dont need a Controller for This Setup, Just a TP-LINK EAP AP and a Server that runs Mendyfi Radius
+
+Check this Sample Config for your Guide: [Click Here](preview/tp-link.pdf)
+
 ## Buy me a Coffee
 
 Donations are appreciated.
