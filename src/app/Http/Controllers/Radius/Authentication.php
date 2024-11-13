@@ -299,7 +299,9 @@ class Authentication extends Controller
         $responses = [];
 
         $responses['Port-Limit'] = 1;
-        $responses['Acct-Interim-Interval'] = $this->radiusInterim;
+
+        //This Radius Attribute is Removed, Omada Controller dont like it
+        //$responses['Acct-Interim-Interval'] = $this->radiusInterim;
 
         //Data Limit
         if($this->hotspotCustomer->data_credit != null) {
