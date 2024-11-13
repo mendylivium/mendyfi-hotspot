@@ -136,6 +136,12 @@ You dont need a Controller for This Setup, Just a TP-LINK EAP AP and a Server th
 
 Check this Sample Config for your Guide: [Click Here](preview/tp-link.pdf)
 
+## - **TP-LINK OMADA CONTROLLER CONFIG**
+
+You need a Omada Controller for This Setup.
+
+Check this Sample Config for your Guide: [Click Here](preview/omada.pdf)
+
 ## - **MIKROTIK CONFIG**
 
 Check this Sample Config for your Guide: [Click Here](preview/mikrotik.pdf)
