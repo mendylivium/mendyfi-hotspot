@@ -111,7 +111,7 @@ Password: admin@1234
 
 ### - **ADDING USER/DOMAIN**
 
-Note: It is recommended to have a domain to add more users by using subdomains, e.g., user1.domain.com, user2.domain.com, and so on. This allows each user to access their client page, such as http://user1.domain.com and http://user2.domain.com.
+Note: It is recommended to have a domain to add more users by using subdomains, e.g., user1.domain.com, user2.domain.com, and so on. This allows each user to access their client page, such as http://user1.domain.com/client/auth/login and http://user2.domain.com/client/auth/login.
 
 If you want to use this system with a single client account, you can use the IP address instead, allowing access to the client page at http://<ip_address>/client/auth/login.( where <ip_address> is the IP of the System Public or Local IP)
 
