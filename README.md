@@ -117,7 +117,17 @@ If you want to use this system with a single client account, you can use the IP 
 
 ![Template](preview/admin_add_domain.png)
 
+## - **BACKUP DATABASE**
+The database is automatically backed up every day,
+You can change the backup schedule to run minutely, hourly, or daily.
+To modify the schedule, edit the file at src/app/Console/Kernel.php.
 
+You can also run the backup manually by executing the following command in the terminal.
+```
+docker compose run --rm artisan app:daily-backup
+```
+
+The SQL file will be output to the "backups" folder.
 ## - **RESTORE DATABASE**
 
 Currently, you can manually restore the database using the console. I’m working on integrating it into the webpage.
