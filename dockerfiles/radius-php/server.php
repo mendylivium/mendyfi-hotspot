@@ -31,7 +31,7 @@ $radius->on("access-request", function($attributes, $authenticator) {
     if($radius->radiusSecret != $result['response']['Mendyfi-Secret'] ) {
         $radius->radiusSecret = $result['response']['Mendyfi-Secret'];
 
-        if($attributes['User-Password-Raw']) {
+        if(isset($attributes['User-Password-Raw']) && $attributes['User-Password-Raw'] != null) {
             $attributes['User-Password'] = $radius->decodePap($attributes['User-Password-Raw'], $authenticator, $radius->radiusSecret);
         }
         $result = httpRequest('POST','http://app/api/radius/auth', $attributes);
