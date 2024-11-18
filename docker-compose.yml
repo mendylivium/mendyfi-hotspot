@@ -138,9 +138,13 @@ services:
       - laravel
 
   radius-php:
+    container_name: radius
     build:
       context: ./dockerfiles
-      dockerfile: radius.dockerfile
+      #dockerfile: radius.dockerfile #Using Socket
+      dockerfile: swoole.dockerfile #Using Swoole
+      args:
+        - SWOOLE=true #Set False if using Socket Only
     ports:
       - "9000:9000"
       - "${RADIUS_AUTH_PORT:-1812}:1812/udp"

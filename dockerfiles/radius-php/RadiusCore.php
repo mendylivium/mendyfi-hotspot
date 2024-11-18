@@ -620,28 +620,27 @@ class RadiusCore
     public function run()
     {
 
-        
+        if(getenv('SWOOLE') == 'true') {        
 
-        // $server = new Swoole\Server($this->radiusIp, $this->radiusAuthPort, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
+            $server = new Swoole\Server($this->radiusIp, $this->radiusAuthPort, SWOOLE_PROCESS, SWOOLE_SOCK_UDP);
+            $server->set([
+                'trace_flags' => 0
+            ]);
+            $server->addListener($this->radiusIp, $this->radiusAcctPort,SWOOLE_SOCK_UDP);
+            $server->on('Packet', array($this, 'processRadiusPacket'));
 
-        // $server->set([
-        //     'trace_flags' => 0
-        // ]);
+            $server->start();
+        } else {
 
-        // $server->addListener($this->radiusIp, $this->radiusAcctPort,SWOOLE_SOCK_UDP);
+            $server = new SocketServer();
 
-        // $server->on('Packet', array($this, 'processRadiusPacket'));
+            $server->addListener($this->radiusIp, $this->radiusAuthPort);
+            $server->addListener($this->radiusIp, $this->radiusAcctPort);
 
-        // $server->start();
+            $server->on('Packet', array($this, 'processRadiusPacket'));
 
-        $server = new SocketServer();
-
-        $server->addListener($this->radiusIp, $this->radiusAuthPort);
-        $server->addListener($this->radiusIp, $this->radiusAcctPort);
-
-        $server->on('Packet', array($this, 'processRadiusPacket'));
-
-        $server->run();
+            $server->run();
+        }
     }
 
 }
