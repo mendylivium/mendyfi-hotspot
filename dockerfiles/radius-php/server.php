@@ -30,7 +30,10 @@ $radius->on("access-request", function($attributes, $authenticator) {
     $result = httpRequest('POST','http://app/api/radius/auth', $attributes);
     if($radius->radiusSecret != $result['response']['Mendyfi-Secret'] ) {
         $radius->radiusSecret = $result['response']['Mendyfi-Secret'];
-        $attributes['User-Password'] = $radius->decodePap($attributes['User-Password-Raw'], $authenticator, $radius->radiusSecret);
+
+        if($attributes['User-Password-Raw']) {
+            $attributes['User-Password'] = $radius->decodePap($attributes['User-Password-Raw'], $authenticator, $radius->radiusSecret);
+        }
         $result = httpRequest('POST','http://app/api/radius/auth', $attributes);
     } 
     foreach($result['response'] as $key => $val) {
