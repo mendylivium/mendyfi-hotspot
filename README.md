@@ -160,6 +160,20 @@ Check this Sample Config for your Guide: [Click Here](preview/mikrotik.pdf)
 
 For Configuring Mikrotik to Use RADIUS: [Click Here](https://youtu.be/rgbyYfFOg6o?t=374)
 
+## - **ERROR AFTER "GIT PULL"
+If you having an error after git pull, just run this commands:
+
+Down all Containers
+
+```
+docker compose down
+```
+
+Run and Rebuild Containers
+```
+docker compose up -d --force-recreate --build
+```
+
 ## Buy me a Coffee
 
 Donations are appreciated.

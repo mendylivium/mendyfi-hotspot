@@ -17,9 +17,9 @@ services:
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
-      - php
-      - redis
-      - mysql
+     - php
+     - redis
+     - mysql
     networks:
       - laravel
       
@@ -55,20 +55,20 @@ services:
     networks:
       - laravel
 
-  phpmyadmin:
-    container_name: phpmyadmin
-    image: phpmyadmin/phpmyadmin
-    restart: unless-stopped
-    ports:
-      - "8081:80"
-    environment:
-      - PMA_HOST=mysql
-      - PMA_PORT=3306
-      - UPLOAD_LIMIT=100m
-    depends_on:
-      - mysql
-    networks:
-      - laravel
+  # phpmyadmin:
+  #   container_name: phpmyadmin
+  #   image: phpmyadmin/phpmyadmin
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8081:80"
+  #   environment:
+  #     - PMA_HOST=mysql
+  #     - PMA_PORT=3306
+  #     - UPLOAD_LIMIT=100m
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - laravel
 
   composer:
     container_name: composer
